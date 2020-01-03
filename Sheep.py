@@ -4,10 +4,9 @@ from Enums import Status
 
 
 class Sheep(object):
-    def __init__(self, index, speed, x, y):
+    def __init__(self, speed, x, y):
         self.x = x
         self.y = y
-        self.index = index
         self.coordinates = [x, y]
         self.sheep_move_dist = speed
         self.status = Status.Alive
