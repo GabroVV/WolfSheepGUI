@@ -1,9 +1,8 @@
 from Sheep import Sheep
 from Wolf import Wolf
 from Enums import Status
-from FileOperations import FileOperations
-import argparse
-
+from GUI import GUI
+from tkinter import *
 
 class Simulation(object):
     def __init__(self, turns, sheep_count, sheep_speed, wolf_speed, limit):
@@ -40,7 +39,9 @@ class Simulation(object):
 
 
 if __name__ == "__main__":
-    sim = Simulation(50, 15, 0.5, 1.0, 10)
-    sim.simulate()
-
+    w = Wolf(1,300)
+    gui = GUI(w)
+    gui.render_wolf()
+    canvas = Canvas(gui.window, width=3 * 300, height=3 * 300, bg="#42F058")
+    gui.window.mainloop()
 

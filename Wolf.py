@@ -3,10 +3,11 @@ import Sheep
 
 
 class Wolf(object):
-    def __init__(self, speed, sheep_list):
-        self.coordinates = [0.0, 0.0]
+    def __init__(self, speed,init_pos_limit):
+        self.init_pos_limit = init_pos_limit
+        self.coordinates = [1.5*init_pos_limit, 1.5*init_pos_limit]
         self.wolf_move_dist = speed
-        self.sheep_list = sheep_list
+        self.sheep_list = []
 
     def distance(self, sheep):
         difference_x = self.coordinates[0] - sheep.coordinates[0]
@@ -45,3 +46,7 @@ class Wolf(object):
         length = math.sqrt(vector[0]*vector[0] + vector[1]*vector[1])
         self.coordinates[0] += self.wolf_move_dist*vector[0]/length
         self.coordinates[1] += self.wolf_move_dist*vector[1]/length
+
+    def reset_wolf(self,event):
+        self.coordinates[0] = event.x
+        self.coordinates[1] = event.y
