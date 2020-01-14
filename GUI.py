@@ -20,18 +20,16 @@ class GUI(object):
         self.canvas.bind("<Button-1>", self.left_click_callback)
         self.canvas.bind("<Button-2>", self.step_callback)
         self.canvas.bind("<Button-4>", self.reset_callback)
-        self.update_label()
-
-
+        self.widget = Label(self.window, text="Liczba zywych owiec: " + str(self.counter), fg='black', bg="#ffffcc")
+        self.widget.pack(side = LEFT)
         self.step_button = Button(self.window, text="Step", command = self.step_callback)
         self.step_button.configure(width=10, activebackground="#33B5E5", relief=FLAT, bg="#ffffcc")
-        self.step_button.pack(side = LEFT)
+        self.step_button.pack(side = RIGHT)
         self.reset_button = Button(self.window, text="Reset", command = self.reset_callback)
         self.reset_button.configure(width=10, activebackground="#33B5E5", relief=FLAT, bg="#ffffcc")
         self.reset_button.pack(side = RIGHT)
         self.wolf_display = None
         self.sheep_display = []
-
         self.render_wolf()
 
     def render_wolf(self):
@@ -43,8 +41,14 @@ class GUI(object):
 
     def update_label(self):
         self.counter = self.wolf.count_alive_sheep()
-        self.widget = Label(self.canvas, text="Liczba zywych owiec: " + str(self.counter), fg='black', bg="#ffffcc")
-        self.canvas.create_window(100, 100, window=self.widget)
+        # self.canvas.create_window(100, 100, window=self.widget)
+        self.widget.pack_forget()
+        self.widget.destroy()
+        self.widget = Label(self.window, text="Liczba zywych owiec: " + str(self.counter), fg='black', bg="#ffffcc")
+        self.widget.pack(side=LEFT)
+
+
+
 
     def render_sheep(self):
         self.canvas.delete(self.sheep_display)
