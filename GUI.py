@@ -18,12 +18,16 @@ class GUI(object):
         self.canvas.bind("<Button-3>", self.right_click_callback)
         self.canvas.bind("<Button-1>", self.left_click_callback)
         self.canvas.bind("<Button-2>", self.step_callback)
+        self.canvas.bind("<Button-4>", self.reset_callback)
 
 
 
         self.step_button = Button(self.window, text="Step", command = self.step_callback)
-        self.step_button.configure(width=10, activebackground="#33B5E5", relief=FLAT, bg = "#ffffcc")
+        self.step_button.configure(width=10, activebackground="#33B5E5", relief=FLAT, bg="#ffffcc")
         self.step_button.pack(side = LEFT)
+        self.reset_button = Button(self.window, text="Reset", command = self.reset_callback)
+        self.reset_button.configure(width=10, activebackground="#33B5E5", relief=FLAT, bg="#ffffcc")
+        self.reset_button.pack(side = RIGHT)
         self.wolf_display = None
         self.sheep_display = []
 
@@ -73,6 +77,19 @@ class GUI(object):
             label.pack()
             end_window.mainloop()
 
+    def reset_callback(self):
+        for sheep in self.wolf.sheep_list:
+            if sheep.status == Status.Alive:
+                sheep.die()
+        self.canvas.delete("all")
+        self.render_wolf_in_the_middle()
+
+    def render_wolf_in_the_middle(self):
+        x = (3 * self.wolf.init_pos_limit)/2
+        y = (3 * self.wolf.init_pos_limit)/2
+        radius = self.wolf.init_pos_limit * 0.05
+        self.wolf_display = self.canvas.create_oval(x - radius, y - radius, x + radius, y + radius, fill="#FF0000", outline='')
+
     def count_alive_sheep(self):
         count = 0
         for sheep in self.wolf.sheep_list:
@@ -85,6 +102,8 @@ class GUI(object):
             if sheep.status == Status.Alive:
                 return True
         return False
+
+
 
 
 
