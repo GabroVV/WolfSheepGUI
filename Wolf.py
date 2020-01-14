@@ -1,6 +1,6 @@
 import math
 import Sheep
-
+from Enums import Status
 
 class Wolf(object):
     def __init__(self, speed,init_pos_limit):
@@ -50,3 +50,10 @@ class Wolf(object):
     def reset_wolf(self,event):
         self.coordinates[0] = event.x
         self.coordinates[1] = event.y
+
+    def count_alive_sheep(self):
+        count = 0
+        for sheep in self.sheep_list:
+            if sheep.status == Status.Alive:
+                count += 1
+        return count

@@ -5,10 +5,11 @@ from Enums import Status
 import tkinter.font as TkFont
 
 class GUI(object):
-    def __init__(self, wolf):
+    def __init__(self, wolf,counter):
         self.window = Tk()
         self.frame = Frame(self.window)
         self.frame.pack()
+        self.counter = counter
 
         self.window.title("WolfSheepSimulation")
         self.window.geometry(str(3 * wolf.init_pos_limit) + 'x' + str(3 * wolf.init_pos_limit + 40))
@@ -19,7 +20,7 @@ class GUI(object):
         self.canvas.bind("<Button-1>", self.left_click_callback)
         self.canvas.bind("<Button-2>", self.step_callback)
         self.canvas.bind("<Button-4>", self.reset_callback)
-
+        self.update_label()
 
 
         self.step_button = Button(self.window, text="Step", command = self.step_callback)
@@ -40,6 +41,11 @@ class GUI(object):
         radius = self.wolf.init_pos_limit * 0.05
         self.wolf_display = self.canvas.create_oval(x-radius, y-radius, x+radius, y+radius, fill="#FF0000", outline='')
 
+    def update_label(self):
+        self.counter = self.wolf.count_alive_sheep()
+        self.widget = Label(self.canvas, text="Liczba zywych owiec: " + str(self.counter), fg='black', bg="#ffffcc")
+        self.canvas.create_window(100, 100, window=self.widget)
+
     def render_sheep(self):
         self.canvas.delete(self.sheep_display)
         radius = self.wolf.init_pos_limit * 0.05
@@ -48,7 +54,7 @@ class GUI(object):
                 x = sheep.coordinates[0]
                 y = sheep.coordinates[1]
                 self.sheep_display.append(self.canvas.create_oval(x - radius, y - radius, x + radius, y + radius, fill="#0000FF" , outline=''))
-
+        self.update_label()
 
     def right_click_callback(self,event):
         self.wolf.reset_wolf(event)
@@ -83,6 +89,7 @@ class GUI(object):
                 sheep.die()
         self.canvas.delete("all")
         self.render_wolf_in_the_middle()
+        self.update_label()
 
     def render_wolf_in_the_middle(self):
         x = (3 * self.wolf.init_pos_limit)/2
@@ -90,18 +97,15 @@ class GUI(object):
         radius = self.wolf.init_pos_limit * 0.05
         self.wolf_display = self.canvas.create_oval(x - radius, y - radius, x + radius, y + radius, fill="#FF0000", outline='')
 
-    def count_alive_sheep(self):
-        count = 0
-        for sheep in self.wolf.sheep_list:
-            if sheep.status == Status.Alive:
-                count += 1
-        return count
+
 
     def sheep_left_check(self):
         for sheep in self.wolf.sheep_list:
             if sheep.status == Status.Alive:
                 return True
         return False
+
+
 
 
 
