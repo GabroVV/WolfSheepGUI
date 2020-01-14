@@ -96,6 +96,8 @@ class GUI(object):
         self.update_label()
 
     def render_wolf_in_the_middle(self):
+        self.wolf.coordinates[0]=(3 * self.wolf.init_pos_limit)/2
+        self.wolf.coordinates[1]=(3 * self.wolf.init_pos_limit)/2
         x = (3 * self.wolf.init_pos_limit)/2
         y = (3 * self.wolf.init_pos_limit)/2
         radius = self.wolf.init_pos_limit * 0.05
